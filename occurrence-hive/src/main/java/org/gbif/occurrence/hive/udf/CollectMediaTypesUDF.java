@@ -21,15 +21,14 @@ public class CollectMediaTypesUDF extends UDF {
     if (field != null) {
       return selectMediaTypes(field.toString());
     }
-    return null;
+    return Lists.newArrayList();
   }
 
   /**
    * Deserialize and extract the media types.
    */
   private List<String> selectMediaTypes(String jsonMedias) {
-    List<String> result = Lists.newArrayList(MediaSerDeserUtils.extractMediaTypes(jsonMedias));
-    return result.isEmpty() ? null : result;
+    return Lists.newArrayList(MediaSerDeserUtils.extractMediaTypes(jsonMedias));
   }
 
 }
