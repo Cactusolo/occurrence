@@ -85,7 +85,7 @@ public class TemporalInterpreterTest {
     assertEquals(0, o.getIssues().size());
 
     Calendar cal = Calendar.getInstance();
-    v.setVerbatimField(DwcTerm.dateIdentified, (cal.get(Calendar.YEAR)+1) + "-01-11");
+    v.setVerbatimField(DwcTerm.dateIdentified, (cal.get(Calendar.YEAR) + 1) + "-01-11");
     TemporalInterpreter.interpretTemporal(v, o);
     assertEquals(1, o.getIssues().size());
     assertEquals(OccurrenceIssue.IDENTIFIED_DATE_UNLIKELY, o.getIssues().iterator().next());
@@ -202,50 +202,50 @@ public class TemporalInterpreterTest {
   }
 
   // these two tests demonstrate the problem from POR-2120
-//  @Test
-//  public void testOnlyYear() {
-//    ParseResult<DateYearMonthDay> result = interpretRecordedDate("1984", null, null, null);
-//    assertResult(1984, null, null, null, result);
+// @Test
+// public void testOnlyYear() {
+// ParseResult<DateYearMonthDay> result = interpretRecordedDate("1984", null, null, null);
+// assertResult(1984, null, null, null, result);
 //
-//    result = interpretRecordedDate(null, null, null, "1984");
-//    assertResult(1984, null, null, null, result);
+// result = interpretRecordedDate(null, null, null, "1984");
+// assertResult(1984, null, null, null, result);
 //
-//    result = interpretRecordedDate("1984", null, null, "1984");
-//    assertResult(1984, null, null, null, result);
-//  }
+// result = interpretRecordedDate("1984", null, null, "1984");
+// assertResult(1984, null, null, null, result);
+// }
 //
-//  @Test
-//  public void testYearWithZeros() {
-//    ParseResult<DateYearMonthDay> result = interpretRecordedDate("1984", "0", "0", "1984");
-//    System.out.println("Got result: " + result.getPayload().getDate());
-//    assertResult(1984, null, null, null, result);
+// @Test
+// public void testYearWithZeros() {
+// ParseResult<DateYearMonthDay> result = interpretRecordedDate("1984", "0", "0", "1984");
+// System.out.println("Got result: " + result.getPayload().getDate());
+// assertResult(1984, null, null, null, result);
 //
-//    result = interpretRecordedDate(null, null, null, "1984");
-//    System.out.println("Got result: " + result.getPayload().getDate());
-//    assertResult(1984, null, null, null, result);
+// result = interpretRecordedDate(null, null, null, "1984");
+// System.out.println("Got result: " + result.getPayload().getDate());
+// assertResult(1984, null, null, null, result);
 //
-//    result = interpretRecordedDate("1984", "0", "0", null);
-//    assertResult(1984, null, null, null, result);
+// result = interpretRecordedDate("1984", "0", "0", null);
+// assertResult(1984, null, null, null, result);
 //
-//    result = interpretRecordedDate(null, null, null, "0-0-1984");
-//    assertEquals(ParseResult.STATUS.FAIL, result.getStatus());
-//    assertNull(result.getPayload());
-//  }
+// result = interpretRecordedDate(null, null, null, "0-0-1984");
+// assertEquals(ParseResult.STATUS.FAIL, result.getStatus());
+// assertNull(result.getPayload());
+// }
 //
-//  @Test
-//  public void testYearMonthNoDay() {
-//    ParseResult<DateYearMonthDay> result = interpretRecordedDate("1984", "3", null, null);
-//    System.out.println("Got result: " + result.getPayload().getDate());
-//    assertResult(1984, 3, null, null, result);
+// @Test
+// public void testYearMonthNoDay() {
+// ParseResult<DateYearMonthDay> result = interpretRecordedDate("1984", "3", null, null);
+// System.out.println("Got result: " + result.getPayload().getDate());
+// assertResult(1984, 3, null, null, result);
 //
-//    result = interpretRecordedDate("1984", "3", null, "1984-03");
-//    System.out.println("Got result: " + result.getPayload().getDate());
-//    assertResult(1984, 3, null, null, result);
+// result = interpretRecordedDate("1984", "3", null, "1984-03");
+// System.out.println("Got result: " + result.getPayload().getDate());
+// assertResult(1984, 3, null, null, result);
 //
-//    result = interpretRecordedDate(null, null, null, "1984-03");
-//    System.out.println("Got result: " + result.getPayload().getDate());
-//    assertResult(1984, 3, null, null, result);
-//  }
+// result = interpretRecordedDate(null, null, null, "1984-03");
+// System.out.println("Got result: " + result.getPayload().getDate());
+// assertResult(1984, 3, null, null, result);
+// }
 
   @Test
   public void testOnlyMonth() {
@@ -280,7 +280,7 @@ public class TemporalInterpreterTest {
     assertValidDate("1999-07-19", "19990719");
     assertValidDate("2012-05-06", "20120506");
 
-    assertValidDate(null, "28.07.14");
+    assertValidDate("2014-07-28", "28.07.14");
   }
 
   private void assertValidDate(String expected, String input) {

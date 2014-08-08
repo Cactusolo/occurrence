@@ -1,5 +1,5 @@
-set mapred.output.compress=false;
-set hive.exec.compress.output=false;
+set mapred.output.compress=true;
+set hive.exec.compress.output=true;
 
 CREATE TABLE ${citation_table}
 ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'

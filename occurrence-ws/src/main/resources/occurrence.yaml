@@ -1,0 +1,44 @@
+registryWsUrl: ${registry.ws.url}
+checklistbankWsUrl: ${checklistbank.ws.url}
+checklistbankMatchWsUrl: ${checklistbank.match.ws.url}
+
+# drupal db for user service
+drupal: 
+  driver: com.mysql.jdbc.Driver
+  url: ${drupal.db.url}
+  username: ${drupal.db.username}
+  password: ${drupal.db.password}
+
+# file with all application keys & secrets
+appkeysFile: ${appkeys.file}
+
+db:
+  tableName: ${occurrence.env_prefix}_occurrence
+  featuredTableName: ${occurrence.env_prefix}_featured_occurrence
+  counterTableName: ${occurrence.env_prefix}_occurrence_counter
+  idLookupTableName: ${occurrence.env_prefix}_occurrence_lookup
+  maxConnectionPool: ${hbase.maxConnectionPool}
+  zookeeperConnectionString: ${zookeeper.quorum}
+
+solr: 
+  server: ${occurrence.search.solr.server}
+  type: HTTP
+  httpLbservers: 
+  embedded: false
+  requestHandler: 
+  zkHost: 
+  collection: 
+
+download: 
+  wsUsername: ${occurrence.download.ws.username}
+  wsPassword: ${occurrence.download.ws.password}
+  wsUrl: ${occurrence.download.ws.url}
+  datauseUrl: ${occurrence.download.datause.url}
+  wsMount: ${occurrence.download.ws.mount}
+  oozieUrl: ${oozie.url}
+  oozieWorkflowPath: ${hdfs.namenode}/occurrence-download/${occurrence.environment}
+  hiveHdfsOut: ${occurrence.download.hive.hdfs.out}
+  mail:
+    smtpHost: ${occurrence.download.mail.smtp.host}
+    from: ${occurrence.download.mail.from}
+    bcc: ${occurrence.download.mail.bcc}

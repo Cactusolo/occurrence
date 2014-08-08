@@ -1,0 +1,9 @@
+{
+  "creator":"fmendez",
+  "notification_addresses": ["fmendez@gbif.org"],  
+  "send_notification":"true",
+  "predicate":{
+    "type":"isNotNull",
+    "parameter":"MEDIA_TYPE"
+  }
+}

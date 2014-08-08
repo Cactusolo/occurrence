@@ -35,7 +35,7 @@ public class OccurrenceDownloadServiceModule extends PrivateServiceModule {
 
   @Provides
   @Singleton
-  Session providesMailSession(@Named("mail.smtp") String smtpServer,
+  Session providesMailSession(@Named("mail.smtp.host") String smtpServer,
     @Named("mail.from") String fromAddress) {
     Properties props = new Properties();
     props.setProperty("mail.smtp.host", smtpServer);

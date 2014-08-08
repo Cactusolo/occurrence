@@ -17,6 +17,20 @@
 	 <maven-shade-plugin.version>2.3</maven-shade-plugin.version>
 	 <dropwizard-core.version>0.7.1</dropwizard-core.version>
 	 <validation-api.version>1.1.0.Final</validation-api.version>
+	 <jruby-complete.version>1.6.5</jruby-complete.version>
+	 <guava.version>14.0.1</guava.version>
+	 <gbif-common-service.version>0.10</gbif-common-service.version>
+	 <dropwizard-jersey.version>0.7.1</dropwizard-jersey.version>
+	 <checklistbank-ws-client.version>2.8</checklistbank-ws-client.version>
+	 <guice.version>3.0</guice.version>
+	 <gbif-common-ws.version>0.15</gbif-common-ws.version>
+	 <drupal-mybatis.version>0.11</drupal-mybatis.version>
+	 <registry-ws-client.version>2.16</registry-ws-client.version>
+	 <occurrence-search.version>0.21-SNAPSHOT</occurrence-search.version>
+	 <jackson-annotations.version>2.3.0</jackson-annotations.version>
+	 <hbase.version>0.94.2-cdh4.2.1</hbase.version>
+	 <bval-guice.version>0.5</bval-guice.version>	 
+	 <occurrence-persistence.version>0.21-SNAPSHOT</occurrence-persistence.version>
 	</properties>
 
 	<build>
@@ -132,11 +146,7 @@
 				<exclusion>
 					<groupId>joda-time</groupId>
 					<artifactId>joda-time</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>javax.validation</groupId>
-					<artifactId>validation-api</artifactId>
-				</exclusion>
+				</exclusion>				
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -149,5 +159,75 @@
 			<artifactId>validation-api</artifactId>
 			<version>${validation-api.version}</version>
 		</dependency>
+		<dependency>
+      <groupId>org.jruby</groupId>
+      <artifactId>jruby-complete</artifactId>
+      <version>${jruby-complete.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>gbif-common-service</artifactId>
+      <version>${gbif-common-service.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.dropwizard</groupId>
+      <artifactId>dropwizard-jersey</artifactId>
+      <version>${dropwizard-jersey.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif.checklistbank</groupId>
+      <artifactId>checklistbank-ws-client</artifactId>
+      <version>${checklistbank-ws-client.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+      <version>${guice.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>gbif-common-ws</artifactId>
+      <version>${gbif-common-ws.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif.occurrence</groupId>
+      <artifactId>occurrence-persistence</artifactId>
+      <version>${occurrence-persistence.version}</version>
+    </dependency>    
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>drupal-mybatis</artifactId>
+      <version>${drupal-mybatis.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif.registry</groupId>
+      <artifactId>registry-ws-client</artifactId>
+      <version>${registry-ws-client.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif.occurrence</groupId>
+      <artifactId>occurrence-search</artifactId>
+      <version>${occurrence-search.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${jackson-annotations.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hbase</groupId>
+      <artifactId>hbase</artifactId>
+      <version>${hbase.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.bval</groupId>
+      <artifactId>bval-guice</artifactId>
+      <version>${bval-guice.version}</version>
+    </dependency>    
 	</dependencies>
 </project>

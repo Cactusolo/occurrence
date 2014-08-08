@@ -3,8 +3,8 @@ CREATE TEMPORARY FUNCTION toISO8601 AS 'org.gbif.occurrence.hive.udf.ToISO8601UD
 CREATE TEMPORARY FUNCTION cleanDelimiters AS 'org.gbif.occurrence.hive.udf.CleanDelimiterCharsUDF';
 CREATE TEMPORARY FUNCTION from_json AS 'brickhouse.udf.json.FromJsonUDF';
 
-set mapred.output.compress=false;
-set hive.exec.compress.output=false;
+set mapred.output.compress=true;
+set hive.exec.compress.output=true;
 
 CREATE TABLE ${result_multimedia_table}
 ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
