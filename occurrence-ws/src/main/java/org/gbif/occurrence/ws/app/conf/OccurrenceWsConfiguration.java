@@ -1,5 +1,6 @@
 package org.gbif.occurrence.ws.app.conf;
 
+import org.gbif.dropwizard.conf.DiscoverableServiceConfiguration;
 import org.gbif.dropwizard.conf.JdbcConfiguration;
 import org.gbif.dropwizard.conf.PropertiesKey;
 import org.gbif.dropwizard.conf.PropertyKeyUtils;
@@ -10,10 +11,9 @@ import javax.validation.Valid;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.yaml.snakeyaml.Yaml;
 import com.google.common.io.Resources;
-import io.dropwizard.Configuration;
 
 
-public class OccurrenceWsConfiguration extends Configuration {
+public class OccurrenceWsConfiguration extends DiscoverableServiceConfiguration {
 
   @PropertiesKey("registry.ws.url")
   private String registryWsUrl;

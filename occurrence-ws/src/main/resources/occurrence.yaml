@@ -1,3 +1,20 @@
+zkHost: "c1n8.gbif.org:2181,c1n9.gbif.org:2181,c1n10.gbif.org:2181"
+environment: dev
+stopSecret: stop
+
+container: 
+  externalPort: 8080
+  externalAdminPort: 8081
+  host: fmendez.gbif.org
+
+server:
+  applicationConnectors:
+    - type: http
+      port: 8082
+  adminConnectors:
+    - type: http
+      port: 8083
+
 registryWsUrl: ${registry.ws.url}
 checklistbankWsUrl: ${checklistbank.ws.url}
 checklistbankMatchWsUrl: ${checklistbank.match.ws.url}

@@ -38,6 +38,17 @@
     <developerConnection>scm:git:git@github.com:gbif/occurrence.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
+  
+  <distributionManagement>
+      <repository>
+          <id>labs-releases</id>
+          <url>http://repository.gbif.org/content/repositories/labs-releases</url>
+      </repository>
+      <snapshotRepository>
+          <id>labs-snapshots</id>
+          <url>http://repository.gbif.org/content/repositories/labs-snapshots</url>
+      </snapshotRepository>
+  </distributionManagement>
 
   <modules>
     <module>occurrence-cli</module>
