@@ -1,6 +1,7 @@
 package org.gbif.occurrence.processor;
 
 import org.gbif.api.model.crawler.DwcaValidationReport;
+import org.gbif.api.model.crawler.OccurrenceValidationReport;
 import org.gbif.api.model.occurrence.Occurrence;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Country;
@@ -129,7 +130,8 @@ public class OccurrenceProcessorIT {
     UUID datasetKey = UUID.fromString(PONTAURUS_DATASET_KEY);
     OccurrenceSchemaType xmlSchema = OccurrenceSchemaType.DWCA;
     Integer crawlId = 1;
-    DwcaValidationReport report = new DwcaValidationReport(datasetKey, 1, 1, 0, 1, 0, true);
+    DwcaValidationReport report =
+      new DwcaValidationReport(datasetKey, new OccurrenceValidationReport(1, 1, 0, 1, 0, true));
     OccurrenceFragmentedMessage msg =
       new OccurrenceFragmentedMessage(datasetKey, crawlId, dwcaSingle.getBytes(), xmlSchema, EndpointType.DWC_ARCHIVE,
         report);
@@ -143,7 +145,8 @@ public class OccurrenceProcessorIT {
     assertEquals("Pontaurus", got.getVerbatimField(DwcTerm.collectionCode));
     assertEquals("988", got.getVerbatimField(DwcTerm.catalogNumber));
     assertEquals(datasetKey, got.getDatasetKey());
-    // note: this is set here inside the occ project, but from a ws call the serializer will omit these 'superseded' terms
+    // note: this is set here inside the occ project, but from a ws call the serializer will omit these 'superseded'
+// terms
     assertEquals("Verbascum cheiranthifolium var. cheiranthifolium", got.getVerbatimField(DwcTerm.scientificName));
     assertEquals("Verbascum cheiranthifolium Boiss.", got.getScientificName());
     assertEquals(37.42123, got.getDecimalLatitude().doubleValue(), 0.000001);
@@ -267,32 +270,25 @@ public class OccurrenceProcessorIT {
       zookeeperConnector.readCounter(datasetKey, ZookeeperConnector.CounterName.FRAGMENT_PROCESSED).longValue());
     assertEquals(0l,
       zookeeperConnector.readCounter(datasetKey, ZookeeperConnector.CounterName.RAW_OCCURRENCE_PERSISTED_ERROR)
-        .longValue()
-    );
+        .longValue());
     assertEquals(1l,
       zookeeperConnector.readCounter(datasetKey, ZookeeperConnector.CounterName.RAW_OCCURRENCE_PERSISTED_UNCHANGED)
-        .longValue()
-    );
+        .longValue());
     assertEquals(1l,
       zookeeperConnector.readCounter(datasetKey, ZookeeperConnector.CounterName.RAW_OCCURRENCE_PERSISTED_UPDATED)
-        .longValue()
-    );
+        .longValue());
     assertEquals(4l,
       zookeeperConnector.readCounter(datasetKey, ZookeeperConnector.CounterName.RAW_OCCURRENCE_PERSISTED_NEW)
-        .longValue()
-    );
+        .longValue());
     assertEquals(0l,
       zookeeperConnector.readCounter(datasetKey, ZookeeperConnector.CounterName.VERBATIM_OCCURRENCE_PERSISTED_ERROR)
-        .longValue()
-    );
+        .longValue());
     assertEquals(5l,
       zookeeperConnector.readCounter(datasetKey, ZookeeperConnector.CounterName.VERBATIM_OCCURRENCE_PERSISTED_SUCCESS)
-        .longValue()
-    );
+        .longValue());
     assertEquals(0l,
       zookeeperConnector.readCounter(datasetKey, ZookeeperConnector.CounterName.INTERPRETED_OCCURRENCE_PERSISTED_ERROR)
-        .longValue()
-    );
+        .longValue());
     assertEquals(5l, zookeeperConnector
       .readCounter(datasetKey, ZookeeperConnector.CounterName.INTERPRETED_OCCURRENCE_PERSISTED_SUCCESS).longValue());
   }

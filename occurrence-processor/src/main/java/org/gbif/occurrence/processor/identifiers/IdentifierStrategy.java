@@ -33,9 +33,11 @@ public class IdentifierStrategy {
   private static boolean tripletsValid(OccurrenceSchemaType schemaType, DwcaValidationReport validationReport) {
     boolean valid = true;
     if (schemaType == OccurrenceSchemaType.DWCA) {
-      valid = validationReport.getUniqueTriplets() > 0
-              && validationReport.getCheckedRecords() - validationReport.getRecordsWithInvalidTriplets()
-                 == validationReport.getUniqueTriplets();
+      valid =
+        validationReport.getOccurrenceReport().getUniqueTriplets() > 0
+          && validationReport.getOccurrenceReport().getCheckedRecords()
+            - validationReport.getOccurrenceReport().getRecordsWithInvalidTriplets()
+            == validationReport.getOccurrenceReport().getUniqueTriplets();
     }
 
     return valid;
@@ -48,8 +50,11 @@ public class IdentifierStrategy {
   private static boolean occurrenceIdsValid(OccurrenceSchemaType schemaType, DwcaValidationReport validationReport) {
     boolean valid = false;
     if (schemaType == OccurrenceSchemaType.DWCA) {
-      valid = validationReport.getCheckedRecords() > 0 &&
-              validationReport.getUniqueOccurrenceIds() == validationReport.getCheckedRecords();
+      valid =
+        validationReport.getOccurrenceReport().getCheckedRecords() > 0
+          &&
+          validationReport.getOccurrenceReport().getUniqueOccurrenceIds() == validationReport.getOccurrenceReport()
+            .getCheckedRecords();
     }
 
     return valid;
