@@ -1,6 +1,7 @@
 zkHost: "c1n8.gbif.org:2181,c1n9.gbif.org:2181,c1n10.gbif.org:2181"
 environment: dev
 stopSecret: stop
+timestamp: 1
 
 container: 
   externalPort: 8080
@@ -14,6 +15,43 @@ server:
   adminConnectors:
     - type: http
       port: 8083
+  requestLog:
+    timeZone: UTC
+    appenders:
+      - type: file
+        currentLogFilename: logs/occurrence-ws-requests.log
+        threshold: INFO
+        archive: true
+        archivedLogFilenamePattern: "logs/occurrence-ws-requests.%d{yyyy-MM-dd}.log.gz"
+        archivedFileCount: 14
+        timeZone: UTC
+        logFormat: "%-5level [%date{'yyyy-MM-dd HH:mm:ss,SSSZ'}] [%thread] %logger: %msg%n%xEx"
+
+logging:
+  level: INFO
+  loggers:    
+    org.gbif: INFO    
+    org.apache.tomcat.util.digester.Digester: INFO
+  appenders:
+    - type: console
+      logFormat: "%-5level [%date{'yyyy-MM-dd HH:mm:ss,SSSZ'}] [%thread] %logger: %msg%n%xEx"
+    - type: file
+      currentLogFilename: logs/occurrence-ws.log
+      threshold: INFO
+      archive: true
+      archivedLogFilenamePattern: "logs/occurrence-ws.%d{yyyy-MM-dd}.log.gz"
+      archivedFileCount: 14
+      timeZone: UTC
+      logFormat: "%-5level [%date{'yyyy-MM-dd HH:mm:ss,SSSZ'}] [%thread] %logger: %msg%n%xEx"
+    - type: file
+      currentLogFilename: "logs/occurrence-ws_error.log"
+      threshold: ERROR            
+      timeZone: UTC
+      archive: true
+      archivedLogFilenamePattern: "logs/occurrence-ws_error.%d{yyyy-MM-dd}.log.gz"
+      archivedFileCount: 28
+      logFormat: "%-5level [%date{'yyyy-MM-dd HH:mm:ss,SSSZ'}] [%thread] %logger: %msg%n%xEx"
+       
 
 registryWsUrl: ${registry.ws.url}
 checklistbankWsUrl: ${checklistbank.ws.url}
