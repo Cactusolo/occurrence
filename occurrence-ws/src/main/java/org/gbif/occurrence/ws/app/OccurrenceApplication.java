@@ -16,12 +16,16 @@ import org.gbif.registry.ws.client.guice.RegistryWsClientModule;
 import org.gbif.service.guice.PrivateServiceModule;
 import org.gbif.ws.client.guice.SingleUserAuthModule;
 import org.gbif.ws.server.guice.WsAuthModule;
+import org.gbif.ws.server.interceptor.NullToNotFound;
+import org.gbif.ws.server.interceptor.NullToNotFoundInterceptor;
 
 import java.util.Properties;
 
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
+import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Named;
 import io.dropwizard.setup.Bootstrap;
 import org.apache.bval.guice.ValidationModule;
@@ -34,31 +38,11 @@ public class OccurrenceApplication extends GbifBaseApplication<OccurrenceWsConfi
   private static final String DOWNLOAD_USER_KEY = "occurrence.download.ws.username";
   private static final String DOWNLOAD_PASSWORD_KEY = "occurrence.download.ws.password";
 
-  /**
-   * Wires up the featured module to be able to access the HBase table.
-   */
-  private static class FeaturedModule extends PrivateServiceModule {
-
-    private static final String PREFIX = "occurrence.db.";
-
-    public FeaturedModule(Properties properties) {
-      super(PREFIX, properties);
-    }
-
-    @Provides
-    @Named("featured_table_pool")
-    public HTablePool provideHTablePool(@Named("max_connection_pool") Integer maxConnectionPool) {
-      return new HTablePool(HBaseConfiguration.create(), maxConnectionPool);
-    }
-
-    @Override
-    protected void configureService() {
-      bind(FeaturedOccurrenceReader.class);
-      expose(FeaturedOccurrenceReader.class);
-    }
+  public OccurrenceApplication() {
+    super(true);
   }
 
-
+  @Override
   public Injector buildGuiceInjector(OccurrenceWsConfiguration configuration) {
     Properties properties = PropertyKeyUtils.toProperties(configuration);
     return Guice.createInjector(new SingleUserAuthModule(properties.getProperty(DOWNLOAD_USER_KEY),
@@ -72,7 +56,7 @@ public class OccurrenceApplication extends GbifBaseApplication<OccurrenceWsConfi
       new OccurrencePersistenceModule(properties),
       new OccurrenceSearchModule(properties),
       new OccurrenceDownloadServiceModule(properties),
-      new FeaturedModule(properties));
+      new OccurrenceWsModule(properties));
   }
 
 
