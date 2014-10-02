@@ -154,7 +154,12 @@
       <arg>${query_result_table}_verbatim</arg>
       <arg>${query_result_table}_multimedia</arg>
       <arg>${citation_table}</arg>
-      <arg>/mnt/auto/${occurrence.environment}/occurrence-download</arg>
+      <!--arg>/mnt/auto/${occurrence.environment}/occurrence-download</arg-->
+      <!--
+        Emergency hack to get off transit - 2nd October
+      -->
+      <arg>/mnt/auto/occurrence-download-pzb</arg>
+
       <arg>${wf:id()}</arg>
       <arg>${gbif_user}</arg>
       <arg>${gbif_filter}</arg>
