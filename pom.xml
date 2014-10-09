@@ -38,6 +38,19 @@
     <developerConnection>scm:git:git@github.com:gbif/occurrence.git</developerConnection>
     <tag>occurrence-0.21</tag>
   </scm>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.0</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>  
 
   <modules>
     <module>occurrence-cli</module>
@@ -53,6 +66,7 @@
     <module>occurrence-ws-client</module>
     <module>occurrence-hive</module>
     <module>occurrence-tables-coord</module>
+    <module>occurrence-download</module>
   </modules>
 
   <properties>
