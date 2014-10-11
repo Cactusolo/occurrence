@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableSet;
  */
 public class OccurrenceHBaseTableDefinition {
 
-  private static final String VERBATIM_COL_PREFIX = "v_"; // use in Hive tables
   private static final String HBASE_KEY_MAPPING = ":key"; // mapping to the HBase row key
 
   /**
@@ -153,7 +152,7 @@ public class OccurrenceHBaseTableDefinition {
    */
   private static HBaseField verbatimField(Term term) {
     return new HBaseField(term,
-                          VERBATIM_COL_PREFIX + term.simpleName().toLowerCase(), // no escape needed, due to prefix
+                          HiveColumns.VERBATIM_COL_PREFIX + term.simpleName().toLowerCase(), // no escape needed, due to prefix
                           HiveDataTypes.typeForTerm(term, true), // verbatim context
                           Columns.OCCURRENCE_COLUMN_FAMILY + ":" + Columns.verbatimColumn(term));
   }

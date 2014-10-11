@@ -29,22 +29,23 @@
       <directory>${project.build.outputDirectory}/create-tables</directory>
       <outputDirectory>/</outputDirectory>
     </fileSet>
+
+    <fileSet>
+      <directory>${project.build.outputDirectory}/conf</directory>
+      <outputDirectory>/conf</outputDirectory>
+    </fileSet>
+
   </fileSets>
 
-  <!--files>
-    <file>
-      <source>${project.build.outputDirectory}/create-tables/test.txt</source>
-      <outputDirectory>lib</outputDirectory>
-      <fileMode>0644</fileMode>
-    </file>
-  </files-->
-
-  <!--dependencySets>
+  <dependencySets>
     <dependencySet>
       <outputDirectory>lib</outputDirectory>
-      <outputFileNameMapping>${artifact.artifactId}-${artifact.baseVersion}.${artifact.extension}</outputFileNameMapping>
+      <includes>
+        <include>org.gbif:*:jar</include>
+        <include>org.gbif.occurrence:*:jar</include>
+      </includes>
       <fileMode>0644</fileMode>
     </dependencySet>
-  </dependencySets-->
+  </dependencySets>
 
 </assembly>

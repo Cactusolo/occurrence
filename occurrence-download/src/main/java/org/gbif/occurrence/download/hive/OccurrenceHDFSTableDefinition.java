@@ -32,8 +32,6 @@ import com.google.common.collect.ImmutableSet;
  */
 public class OccurrenceHDFSTableDefinition {
 
-  private static final String VERBATIM_COL_PREFIX = "v_"; // use in Hive tables
-
   // the complete list of terms which are excluded from generic handling and either treated as special terms,
   // or omitted completely from this table.
   private static final Set<Term> EXCLUSIONS = ImmutableSet.<Term>of(
@@ -62,7 +60,7 @@ public class OccurrenceHDFSTableDefinition {
    */
   private static String mediaTypeInitializer() {
     // collects from the extension multimedia term important(!)
-    return "collectMediaTypes(" + HiveColumns.columnFor(GbifTerm.Multimedia) + ")";
+    return "collectMediaTypes(" + HiveColumns.columnFor(Extension.MULTIMEDIA) + ")";
   }
 
   /**
@@ -215,7 +213,7 @@ public class OccurrenceHDFSTableDefinition {
    */
   private static InitializableField verbatimField(Term term) {
     return new InitializableField(term,
-                                  VERBATIM_COL_PREFIX + term.simpleName().toLowerCase(),
+                                  HiveColumns.VERBATIM_COL_PREFIX + term.simpleName().toLowerCase(),
                                   // no escape needed, due to prefix
                                   HiveDataTypes.typeForTerm(term, true) // verbatim context
     );

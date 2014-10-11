@@ -6,7 +6,7 @@
 -->
 
 <#-- Required syntax to escape Hive parameters. Outputs "USE ${hive_db};" -->
-USE ${r"${hive_db}"};
+USE ${r"${hiveDB}"};
 
 -- snappy compression
 SET hive.exec.compress.output=true;
@@ -14,7 +14,7 @@ SET mapred.output.compression.type=BLOCK;
 SET mapred.output.compression.codec=org.apache.hadoop.io.compress.SnappyCodec;
 
 -- configure for reading HBase
-SET hbase.client.scanner.caching=200;
+SET hbase.client.scanner.caching=1000;
 SET hive.mapred.reduce.tasks.speculative.execution=false;
 SET hive.hadoop.supports.splittable.combineinputformat=true;
 SET mapred.max.split.size=256000000;
@@ -25,7 +25,7 @@ CREATE TEMPORARY FUNCTION removeNulls AS 'org.gbif.occurrence.hive.udf.ArrayNull
 
 -- create the HDFS view of the HBase table
 CREATE TABLE IF NOT EXISTS occurrence_hdfs (
-<#list occurrence_hdfs as field>
+<#list fields as field>
   ${field.hiveField} ${field.hiveDataType}<#if field_has_next>,</#if>
 </#list>
 ) STORED AS RCFILE;
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS occurrence_hdfs (
 -- populate the HDFS view
 INSERT OVERWRITE TABLE occurrence_hdfs
 SELECT
-<#list occurrence_hdfs as field>
+<#list fields as field>
   ${field.initializer}<#if field_has_next>,</#if>
 </#list>
 FROM occurrence_hbase;

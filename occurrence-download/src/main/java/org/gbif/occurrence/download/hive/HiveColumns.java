@@ -20,7 +20,10 @@ public class HiveColumns {
     "group");
 
   // prefix for extension columns
-  private static final String EXTENSION_PRE = "ext_";
+  static final String EXTENSION_PREFIX = "ext_";
+
+  // prefix for extension columns
+  static final String VERBATIM_COL_PREFIX = "v_";
 
   private HiveColumns() {
     // empty constructor
@@ -44,7 +47,7 @@ public class HiveColumns {
    * Gets the Hive column name of the extension parameter.
    */
   public static String columnFor(Extension extension) {
-    return escapeColumnName(EXTENSION_PRE + extension.name().toLowerCase());
+    return escapeColumnName(EXTENSION_PREFIX + extension.name().toLowerCase());
   }
 
   /**

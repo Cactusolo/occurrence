@@ -17,6 +17,21 @@
   </properties>
 
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>conf/hive-default.xml</include>
+          <include>**/workflow.xml</include>
+          <include>**/config-default.xml</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -30,10 +45,16 @@
             </goals>
             <configuration>
               <mainClass>org.gbif.occurrence.download.hive.GenerateHQL</mainClass>
-              <!--arguments>
-               <argument>arg0</argument>
-               <argument>arg1</argument>
-              </arguments-->
+              <arguments>
+               <argument>${project.build.outputDirectory}</argument>
+               <!--argument>-classpath</argument>
+               <classpath>
+                 <dependency>org.gbif:gbif-api</dependency>
+                 <dependency>org.gbif.occurrence:occurrence-persistence</dependency>
+                 <dependency>org.freemarker:freemarker</dependency>
+                 <dependency>com.google.guava:guava</dependency>
+               </classpath-->
+              </arguments>
             </configuration>
           </execution>
         </executions>
@@ -97,6 +118,10 @@
       <artifactId>occurrence-persistence</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.gbif.occurrence</groupId>
+      <artifactId>occurrence-hive</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.freemarker</groupId>
       <artifactId>freemarker</artifactId>
       <version>${freemarker.version}</version>
@@ -104,6 +129,20 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.oozie</groupId>
+      <artifactId>oozie-client</artifactId>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 </project>

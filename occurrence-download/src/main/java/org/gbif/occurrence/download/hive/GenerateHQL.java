@@ -24,19 +24,26 @@ import freemarker.template.TemplateException;
  * generation of HBase table columns themselves.
  */
 public class GenerateHQL {
+  private static final String CREATE_TABLES_DIR = "create-tables/hive-scripts";
+  private static final String DOWNLOAD_DIR = "download/hive-scripts";
 
   public static void main(String[] args) {
     try {
       Preconditions.checkState(1 == args.length, "Output path for HQL files is required");
-
       File outDir = new File(args[0]);
       Preconditions.checkState(outDir.exists() && outDir.isDirectory(), "Output directory must exist");
 
+      // create the sub directories into which we will write
+      File createTablesDir = new File(outDir, CREATE_TABLES_DIR);
+      File downloadDir = new File(outDir, DOWNLOAD_DIR);
+      createTablesDir.mkdirs();
+      downloadDir.mkdirs();
+
       Configuration cfg = new Configuration();
       cfg.setTemplateLoader(new ClassTemplateLoader(GenerateHQL.class, "/hql-templates"));
-      generateHBaseTableHQL(cfg, outDir);
-      generateOccurrenceTableHQL(cfg, outDir);
-      generateDownloadTablesHQL(cfg, outDir);
+      generateHBaseTableHQL(cfg, createTablesDir);
+      generateOccurrenceTableHQL(cfg, createTablesDir);
+      generateDownloadTablesHQL(cfg, createTablesDir);
 
     } catch (Exception e) {
       // Hard exit for safety, and since this is used in build pipelines, any generation error could have
@@ -52,30 +59,14 @@ public class GenerateHQL {
   }
 
   /**
-   * Generates HQL which can be used to create the actual tables queried at download time.  The downloads tables are
-   * simplified versions of the occurrence HBase table snapshot, and thus optimized for runtime performance where less
-   * data is scanned at each download.
-   */
-  private static void generateDownloadTablesHQL(Configuration cfg, File outDir) throws IOException, TemplateException {
-    try (FileWriter out = new FileWriter(new File(outDir, "create-download-tables.q"))) {
-      Template template = cfg.getTemplate("create-download-tables.ftl");
-      Map<String, Object> data = ImmutableMap.<String, Object>of(
-        "occurrence_hdfs", OccurrenceHDFSTableDefinition.definition()
-      );
-
-      template.process(data, out);
-    }
-  }
-
-  /**
    * Generates HQL which create a Hive table on the HBase table.
    */
   private static void generateHBaseTableHQL(Configuration cfg, File outDir)
     throws IOException, TemplateException {
     try (FileWriter out = new FileWriter(new File(outDir, "create-occurrence-hbase.q"))) {
-      Template template = cfg.getTemplate("create-occurrence-hbase.ftl");
+      Template template = cfg.getTemplate("configure/create-occurrence-hbase.ftl");
       Map<String, Object> data = ImmutableMap.<String, Object>of(
-        "occurrence_hbase", OccurrenceHBaseTableDefinition.definition()
+        "fields", OccurrenceHBaseTableDefinition.definition()
       );
       template.process(data, out);
     }
@@ -88,9 +79,25 @@ public class GenerateHQL {
     throws IOException, TemplateException {
 
     try (FileWriter out = new FileWriter(new File(outDir, "create-occurrence-hdfs.q"))) {
-      Template template = cfg.getTemplate("create-occurrence-hdfs.ftl");
+      Template template = cfg.getTemplate("configure/create-occurrence-hdfs.ftl");
       Map<String, Object> data = ImmutableMap.<String, Object>of(
-        "occurrence_hdfs", OccurrenceHDFSTableDefinition.definition()
+        "fields", OccurrenceHDFSTableDefinition.definition()
+      );
+      template.process(data, out);
+    }
+  }
+
+  /**
+   * Generates HQL which can be used to create the actual tables queried at download time.  The downloads tables are
+   * simplified versions of the occurrence HBase table snapshot, and thus optimized for runtime performance where less
+   * data is scanned at each download.
+   */
+  private static void generateDownloadTablesHQL(Configuration cfg, File outDir) throws IOException, TemplateException {
+    try (FileWriter out = new FileWriter(new File(outDir, "create-download-tables.q"))) {
+      Template template = cfg.getTemplate("configure/create-download-tables.ftl");
+      Map<String, Object> data = ImmutableMap.<String, Object>of(
+        "fullDownloadFields", DownloadTableDefinitions.fullDownload(),
+        "simpleDownloadFields", DownloadTableDefinitions.simpleDownload()
       );
       template.process(data, out);
     }
