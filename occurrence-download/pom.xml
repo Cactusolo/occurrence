@@ -114,13 +114,14 @@
       <artifactId>gbif-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.gbif.occurrence</groupId>
-      <artifactId>occurrence-persistence</artifactId>
+      <groupId>org.gbif</groupId>
+      <artifactId>dwc-api</artifactId>
     </dependency>
     <dependency>
       <groupId>org.gbif.occurrence</groupId>
-      <artifactId>occurrence-hive</artifactId>
+      <artifactId>occurrence-persistence</artifactId>
     </dependency>
+    <!-- Used during build phase only, to generate HQL scripts -->
     <dependency>
       <groupId>org.freemarker</groupId>
       <artifactId>freemarker</artifactId>
@@ -130,19 +131,25 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
     </dependency>
-
     <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-core</artifactId>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>jsr305</artifactId>
+    </dependency>
+    <!--
+      Note: All the following will show as false positive on dependency:analyze
+      They are however needed to package in the WF to provide (e.g.) GBIF UDFs.
+      The assemblies control the workflow classpath, so anything added here must be
+      explicitly declared in the assembly.
+      START OF WORKFLOW ONLY DEPENDENCIES
+    -->
+    <dependency>
+      <groupId>org.gbif.occurrence</groupId>
+      <artifactId>occurrence-hive</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-common</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.oozie</groupId>
-      <artifactId>oozie-client</artifactId>
-      <scope>provided</scope>
+      <groupId>com.vividsolutions</groupId>
+      <artifactId>jts</artifactId>
     </dependency>
   </dependencies>
+  <!-- END OF WORKFLOW ONLY DEPENDENCIES -->
 </project>

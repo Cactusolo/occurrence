@@ -25,26 +25,36 @@
   <includeBaseDirectory>false</includeBaseDirectory>
 
   <fileSets>
+    <!--fileSet>
+      <directory>${project.build.outputDirectory}/download</directory>
+      <outputDirectory>/</outputDirectory>
+      <fileMode>0755</fileMode>
+      <includes>
+        <include>**/*.sh</include>
+      </includes>
+    </fileSet-->
     <fileSet>
       <directory>${project.build.outputDirectory}/download</directory>
       <outputDirectory>/</outputDirectory>
     </fileSet>
+    <fileSet>
+      <directory>${project.build.outputDirectory}/conf</directory>
+      <outputDirectory>/conf</outputDirectory>
+    </fileSet>
   </fileSets>
 
-  <!--files>
-    <file>
-      <source>${project.build.outputDirectory}/conf/hive-default.xml</source>
-      <outputDirectory>lib</outputDirectory>
-      <fileMode>0644</fileMode>
-    </file>
-  </files>
-
+  <!--
+    Dependencies here are references to POM dependencies.
+  -->
   <dependencySets>
     <dependencySet>
       <outputDirectory>lib</outputDirectory>
-      <outputFileNameMapping>${artifact.artifactId}-${artifact.baseVersion}.${artifact.extension}</outputFileNameMapping>
+      <includes>
+        <include>org.gbif:*:jar</include>
+        <include>org.gbif.occurrence:*:jar</include>
+        <include>com.vividsolutions:jts:jar</include>
+      </includes>
       <fileMode>0644</fileMode>
     </dependencySet>
-  </dependencySets-->
-
+  </dependencySets>
 </assembly>

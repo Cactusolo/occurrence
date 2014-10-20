@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
   <!--
+    Compromise on data locality, but gain on reducing the number of map slots occupied by
+    using 2x block size split sizes.
+  -->
+  <property>
+    <name>mapred.max.split.size</name>
+    <value>256000000</value>
+  </property>
+
+  <!--
     Use the Hive thrift metastore.
     TODO: this will change when we move to the Hive2 server and CDH5
   -->

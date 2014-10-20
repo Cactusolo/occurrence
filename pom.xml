@@ -38,7 +38,7 @@
     <developerConnection>scm:git:git@github.com:gbif/occurrence.git</developerConnection>
     <tag>occurrence-0.21</tag>
   </scm>
-  
+
   <build>
     <plugins>
       <plugin>
@@ -50,7 +50,7 @@
         </configuration>
       </plugin>
     </plugins>
-  </build>  
+  </build>
 
   <modules>
     <module>occurrence-cli</module>

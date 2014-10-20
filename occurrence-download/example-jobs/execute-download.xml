@@ -1,12 +1,12 @@
 <!--
   Run this with:
-   oozie job -oozie http://c1n8.gbif.org:11000/oozie/ -config example-jobs/job.xml -run
+   oozie job -oozie http://c1n1.gbif.org:11000/oozie/ -config example-jobs/execute-download.xml -run
 -->
 <configuration>
   <!-- See the install-workflow.sh which declares this location during development -->
   <property>
     <name>oozie.wf.application.path</name>
-    <value>hdfs://c1n8.gbif.org:8020/user/tim/create-download-tables</value>
+    <value>hdfs://c1n1.gbif.org:8020/user/tim/occurrence-download</value>
   </property>
 
   <!--
@@ -21,8 +21,9 @@
     <value>tim</value>
   </property>
   <property>
-    <name>occurrenceHBaseTable</name>
-    <value>prod_b2_occurrence</value>
+    <name>whereClause</name>
+    <value>taxonKey=1001</value>
   </property>
+
 
 </configuration>

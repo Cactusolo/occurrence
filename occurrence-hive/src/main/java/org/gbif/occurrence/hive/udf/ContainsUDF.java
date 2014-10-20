@@ -11,6 +11,7 @@ import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 import org.apache.hadoop.hive.ql.exec.Description;
 import org.apache.hadoop.hive.ql.exec.UDF;
+import org.apache.hadoop.hive.serde2.io.DoubleWritable;
 import org.apache.hadoop.io.BooleanWritable;
 import org.apache.hadoop.io.Text;
 import org.slf4j.Logger;
@@ -30,13 +31,17 @@ public class ContainsUDF extends UDF {
   private final Map<String, Geometry> geometryCache = Maps.newHashMap();
   private final BooleanWritable isContained = new BooleanWritable();
 
-  public BooleanWritable evaluate(Text geometryAsWKT, Double latitude, Double longitude) {
+  /**
+   * Note: Important to use {@link org.apache.hadoop.hive.serde2.io.DoubleWritable} and not
+   * {@link org.apache.hadoop.io.DoubleWritable} in order to work with Impala(!).
+   */
+  public BooleanWritable evaluate(Text geometryAsWKT, DoubleWritable latitude, DoubleWritable longitude) {
     isContained.set(false);
 
     try {
       // sanitize the input
-      if (geometryAsWKT == null || latitude == null || longitude == null || latitude > 90 || latitude < -90
-        || longitude > 180 || longitude < -180) {
+      if (geometryAsWKT == null || latitude == null || longitude == null || latitude.get() > 90 || latitude.get() < -90
+        || longitude.get() > 180 || longitude.get() < -180) {
         return isContained;
       }
       String geoWKTStr = geometryAsWKT.toString();
@@ -47,7 +52,7 @@ public class ContainsUDF extends UDF {
       }
 
       // support any geometry - up to the user to make a sensible query
-      Geometry point = geometryFactory.createPoint(new Coordinate(longitude, latitude));
+      Geometry point = geometryFactory.createPoint(new Coordinate(longitude.get(), latitude.get()));
       isContained.set(geom.contains(point));
 
     } catch (ParseException e) {

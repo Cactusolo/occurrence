@@ -1,9 +1,10 @@
 <#--
   This is a freemarker template which will generate an HQL script which is run at download time.
-  When run in Hive as a parameterized query, this will create a set of tables ... TODO... .
+  When run in Hive as a parameterized query, this will create a set of tables ...
+  TODO: document when we actually know something accurate to write here...
 -->
-<#-- Required syntax to escape Hive parameters. Outputs "USE ${hive_db};" -->
-USE ${r"${hive_db}"};
+<#-- Required syntax to escape Hive parameters. Outputs "USE ${hiveDB};" -->
+USE ${r"${hiveDB}"};
 
 CREATE TEMPORARY FUNCTION cleanNull AS 'org.gbif.occurrence.hive.udf.NullStringRemoverUDF';
 CREATE TEMPORARY FUNCTION contains AS 'org.gbif.occurrence.hive.udf.ContainsUDF';
@@ -19,22 +20,22 @@ CREATE TEMPORARY FUNCTION joinArray AS 'brickhouse.udf.collect.JoinArrayUDF';
 -- SET io.compression.codecs=org.gbif.hadoop.compress.d2.D2Codec;
 
 -- in case this job is relaunched
-DROP TABLE IF EXISTS ${verbatimTable};
-DROP TABLE IF EXISTS ${interpretedTable};
-DROP TABLE IF EXISTS ${citationTable};
-DROP TABLE IF EXISTS ${multimediaTable};
+DROP TABLE IF EXISTS ${r"${verbatimTable}"};
+DROP TABLE IF EXISTS ${r"${interpretedTable}"};
+DROP TABLE IF EXISTS ${r"${citationTable}"};
+DROP TABLE IF EXISTS ${r"${multimediaTable}"};
 
 -- pre-create verbatim table so it can be used in the multi-insert
-CREATE TABLE ${verbatimTable} (
+CREATE TABLE ${r"${verbatimTable}"} (
 <#list verbatimFields as field>
-${field.hiveField} ${field.hiveDataType}<#if field_has_next>,</#if>
+  ${field.hiveField} ${field.hiveDataType}<#if field_has_next>,</#if>
 </#list>
 ) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
 
 -- pre-create interpreted table so it can be used in the multi-insert
-CREATE TABLE ${interpretedTable} (
+CREATE TABLE ${r"${interpretedTable}"} (
 <#list interpretedFields as field>
-${field.hiveField} ${field.hiveDataType}<#if field_has_next>,</#if>
+  ${field.hiveField} ${field.hiveDataType}<#if field_has_next>,</#if>
 </#list>
 ) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
 
@@ -42,32 +43,38 @@ ${field.hiveField} ${field.hiveDataType}<#if field_has_next>,</#if>
 -- Uses multi-table inserts format to reduce to a single scan of the source table.
 --
 <#-- NOTE: Formatted below to generate nice output at expense of ugliness in this template -->
-FROM ${sourceTable}
-  INSERT INTO TABLE ${verbatimTable}
+FROM occurrence_hdfs
+  INSERT INTO TABLE ${r"${verbatimTable}"}
   SELECT
 <#list verbatimFields as field>
-    ${field}<#if field_has_next>,</#if>
+    ${field.hiveField}<#if field_has_next>,</#if>
 </#list>
-  WHERE ${whereClause}
-  INSERT INTO TABLE ${interpTable}
+  WHERE ${r"${whereClause}"}
+  INSERT INTO TABLE ${r"${interpretedTable}"}
   SELECT
 <#list interpretedFields as field>
-    ${field}<#if field_has_next>,</#if>
+    ${field.hiveField}<#if field_has_next>,</#if>
 </#list>
-  WHERE ${whereClause};
+  WHERE ${r"${whereClause}"};
 
 --
 -- Creates the citation table
+-- At most this produces #datasets, so single reducer
 --
-CREATE TABLE ${citationTable}
+SET mapred.reduce.tasks=1;
+CREATE TABLE ${r"${citationTable}"}
 ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
-AS SELECT datasetkey, count(*) as num_occurrences FROM ${interpTable} GROUP BY datasetkey;
+AS SELECT datasetkey, count(*) as num_occurrences FROM ${r"${interpretedTable}"} GROUP BY datasetkey;
 
 --
 -- Creates the multimedia table
+-- These will be small tables, so provide reducer hint to MR, to stop is spawning huge numbers
 --
-CREATE TABLE ${multimediaTable}
+SET mapred.reduce.tasks=5;
+CREATE TABLE ${r"${multimediaTable}"}
 ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
 AS SELECT m.*
-FROM multimedia_hdfs m
-  JOIN ${interpTable} i ON m.gbifId = i.id;
+FROM
+  ${r"${interpretedTable}"} i
+  JOIN occurrence_multimedia m ON m.gbifId = i.gbifId;
+

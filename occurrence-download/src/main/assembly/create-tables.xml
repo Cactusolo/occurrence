@@ -23,7 +23,6 @@
     <format>dir</format>
   </formats>
   <includeBaseDirectory>false</includeBaseDirectory>
-
   <fileSets>
     <fileSet>
       <directory>${project.build.outputDirectory}/create-tables</directory>
@@ -34,9 +33,11 @@
       <directory>${project.build.outputDirectory}/conf</directory>
       <outputDirectory>/conf</outputDirectory>
     </fileSet>
-
   </fileSets>
 
+  <!--
+    Dependencies here are references to POM dependencies.
+  -->
   <dependencySets>
     <dependencySet>
       <outputDirectory>lib</outputDirectory>

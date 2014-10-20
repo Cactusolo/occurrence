@@ -41,9 +41,19 @@ public class GenerateHQL {
 
       Configuration cfg = new Configuration();
       cfg.setTemplateLoader(new ClassTemplateLoader(GenerateHQL.class, "/hql-templates"));
+
+      // generates HQL for the coordinator jobs to create the tables to be queried
       generateHBaseTableHQL(cfg, createTablesDir);
       generateOccurrenceTableHQL(cfg, createTablesDir);
       generateDownloadTablesHQL(cfg, createTablesDir);
+
+      // generates HQL executed at actual download time (tightly coupled to table definitions above, hence this is
+      // co-located)
+      generateQueryHQL(cfg, downloadDir);
+      generateVerbatimQueryHQL(cfg, downloadDir);
+      generateInterpretedQueryHQL(cfg, downloadDir);
+      generateCitationQueryHQL(cfg, downloadDir);
+      generateMultimediaQueryHQL(cfg, downloadDir);
 
     } catch (Exception e) {
       // Hard exit for safety, and since this is used in build pipelines, any generation error could have
@@ -100,6 +110,66 @@ public class GenerateHQL {
         "simpleDownloadFields", DownloadTableDefinitions.simpleDownload()
       );
       template.process(data, out);
+    }
+  }
+
+  /**
+   * TODO
+   */
+  private static void generateQueryHQL(Configuration cfg, File outDir) throws IOException, TemplateException {
+    try (FileWriter out = new FileWriter(new File(outDir, "execute-query.q"))) {
+      Template template = cfg.getTemplate("download/execute-query.ftl");
+      Map<String, Object> data = ImmutableMap.<String, Object>of(
+        "verbatimFields", Queries.selectSimpleVerbatimFields(),
+        "interpretedFields", Queries.selectSimpleInterpretedFields()
+      );
+      template.process(data, out);
+    }
+  }
+
+  /**
+   * TODO
+   */
+  private static void generateVerbatimQueryHQL(Configuration cfg, File outDir) throws IOException, TemplateException {
+    try (FileWriter out = new FileWriter(new File(outDir, "execute-verbatim-query.q"))) {
+      Template template = cfg.getTemplate("download/execute-verbatim-query.ftl");
+      Map<String, Object> data = ImmutableMap.<String, Object>of(
+        "verbatimFields", Queries.selectSimpleVerbatimFields()
+      );
+      template.process(data, out);
+    }
+  }
+
+  /**
+   * TODO
+   */
+  private static void generateInterpretedQueryHQL(Configuration cfg, File outDir) throws IOException, TemplateException {
+    try (FileWriter out = new FileWriter(new File(outDir, "execute-interpreted-query.q"))) {
+      Template template = cfg.getTemplate("download/execute-interpreted-query.ftl");
+      Map<String, Object> data = ImmutableMap.<String, Object>of(
+        "interpretedFields", Queries.selectSimpleVerbatimFields()
+      );
+      template.process(data, out);
+    }
+  }
+
+  /**
+   * TODO
+   */
+  private static void generateCitationQueryHQL(Configuration cfg, File outDir) throws IOException, TemplateException {
+    try (FileWriter out = new FileWriter(new File(outDir, "execute-citation-query.q"))) {
+      Template template = cfg.getTemplate("download/execute-citation-query.ftl");
+      template.process(ImmutableMap.<String, Object>of(), out);
+    }
+  }
+
+  /**
+   * TODO
+   */
+  private static void generateMultimediaQueryHQL(Configuration cfg, File outDir) throws IOException, TemplateException {
+    try (FileWriter out = new FileWriter(new File(outDir, "execute-multimedia-query.q"))) {
+      Template template = cfg.getTemplate("download/execute-multimedia-query.ftl");
+      template.process(ImmutableMap.<String, Object>of(), out);
     }
   }
 }
