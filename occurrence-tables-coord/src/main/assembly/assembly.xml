@@ -47,4 +47,11 @@
     </dependencySet>
   </dependencySets>
 
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>lib</outputDirectory>
+      <fileMode>0644</fileMode>
+    </dependencySet>
+  </dependencySets>
+
 </assembly>
