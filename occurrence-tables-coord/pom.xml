@@ -80,10 +80,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.gbif</groupId>
       <artifactId>gbif-api</artifactId>
       <exclusions>
@@ -102,50 +98,12 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>org.gbif</groupId>
-      <artifactId>dwc-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.gbif.occurrence</groupId>
       <artifactId>occurrence-hive</artifactId>
       <exclusions>
         <exclusion>
           <groupId>org.gbif.occurrence</groupId>
           <artifactId>occurrence-processor</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.gbif.occurrence</groupId>
-      <artifactId>occurrence-persistence</artifactId>
-      <exclusions>
-        <exclusion>
-          <artifactId>log4j-over-slf4j</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>hbase-utils</artifactId>
-          <groupId>org.gbif</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>hbase-client</artifactId>
-          <groupId>org.apache.hbase</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>curator-client</artifactId>
-          <groupId>org.apache.curator</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>curator-framework</artifactId>
-          <groupId>org.apache.curator</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>curator-recipes</artifactId>
-          <groupId>org.apache.curator</groupId>
         </exclusion>
       </exclusions>
     </dependency>
