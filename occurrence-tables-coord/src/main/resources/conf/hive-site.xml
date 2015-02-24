@@ -27,11 +27,6 @@
     <name>hbase.zookeeper.quorum</name>
     <value>${zookeeper.quorum}</value>
   </property>
-
-  <property>
-    <name>hive.metastore.local</name>
-    <value>false</value>
-  </property>
   <property>
     <name>hive.metastore.uris</name>
     <value>${hive.metastore.uris}</value>
@@ -62,11 +57,27 @@
   </property>
   <property>
     <name>hive.exec.scratchdir</name>
-    <value>/tmp/hive-occurrence-tables-coord</value>
+    <value>/tmp/hive-occurrence.download</value>
     <description>Scratch space for Hive jobs</description>
   </property>
   <property>
     <name>mapreduce.task.classpath.user.precedence</name>
     <value>true</value>
+  </property>
+  <property>
+    <name>mapreduce.task.classpath.first</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>mapreduce.job.user.classpath.first</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>oozie.launcher.mapreduce.job.user.classpath.first</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>oozie.log.hive.level</name>
+    <value>DEBUG</value>
   </property>
 </configuration>

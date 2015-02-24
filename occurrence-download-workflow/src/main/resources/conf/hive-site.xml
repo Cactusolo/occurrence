@@ -32,14 +32,6 @@
     <value>${hive.metastore.uris}</value>
   </property>
   <property>
-    <name>hive.metastore.warehouse.dir</name>
-    <value>${occurrence.download.hive.hdfs.out}</value>
-  </property>
-  <property>
-    <name>hive.warehouse.subdir.inherit.perms</name>
-    <value>true</value>
-  </property>
-  <property>
     <name>mapred.reduce.tasks</name>
     <value>-1</value>
   </property>
@@ -50,15 +42,6 @@
   <property>
     <name>hive.exec.reducers.max</name>
     <value>999</value>
-  </property>
-  <property>
-    <name>hive.metastore.execute.setugi</name>
-    <value>true</value>
-  </property>
-  <property>
-    <name>hive.exec.scratchdir</name>
-    <value>/tmp/hive-occurrence.download</value>
-    <description>Scratch space for Hive jobs</description>
   </property>
   <property>
     <name>mapreduce.task.classpath.user.precedence</name>
@@ -75,9 +58,5 @@
   <property>
     <name>oozie.launcher.mapreduce.job.user.classpath.first</name>
     <value>true</value>
-  </property>
-  <property>
-    <name>oozie.log.hive.level</name>
-    <value>DEBUG</value>
   </property>
 </configuration>
