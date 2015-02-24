@@ -27,7 +27,7 @@ public class DownloadTableHiveAction {
 
   /**
    * Runs the hive script using the Hive JDBC driver.
-   * 
+   *
    * @param hiveServer Hive server name
    * @param hiveDB Hive database name where the occurrence tables will be created
    * @param hiveUser Hive user
