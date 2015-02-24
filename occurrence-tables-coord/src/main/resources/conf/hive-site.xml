@@ -77,7 +77,47 @@
     <value>true</value>
   </property>
   <property>
-    <name>oozie.log.hive.level</name>
-    <value>DEBUG</value>
+    <name>hbase.rpc.timeout</name>
+    <value>1200000</value>
+  </property>
+  <property>
+    <name>hbase.regionserver.lease.period</name>
+    <value>1200000</value>
+  </property>
+  <property>
+    <name>hbase.client.scanner.caching</name>
+    <value>200</value>
+  </property>
+  <property>
+    <name>hbase.hstore.blockingStoreFiles</name>
+    <value>200</value>
+  </property>
+  <property>
+    <name>hive.exec.compress.output</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>mapred.max.split.size</name>
+    <value>256000000</value>
+  </property>
+  <property>
+    <name>mapred.output.compression.type</name>
+    <value>BLOCK</value>
+  </property>
+  <property>
+    <name>mapred.output.compression.codec</name>
+    <value>org.apache.hadoop.io.compress.SnappyCodec</value>
+  </property>
+  <property>
+    <name>hive.hadoop.supports.splittable.combineinputformat</name>
+    <value>true</value>
+  </property>
+  <property>
+    <name>hive.mapred.reduce.tasks.speculative.execution</name>
+    <value>false</value>
+  </property>
+  <property>
+    <name>hive.mapred.map.tasks.speculative.execution</name>
+    <value>false</value>
   </property>
 </configuration>
